@@ -1,0 +1,99 @@
+/* Table Layout */
+.table-container {
+    background: white;
+    border-radius: 2.5rem; /* Bo góc cực đại theo style dashboard của bạn */
+}
+
+.user-row:hover {
+    background-color: rgba(37, 99, 235, 0.03);
+}
+
+/* UI Elements */
+.search-input {
+    width: 100%;
+    padding: 0.85rem 1rem 0.85rem 2.75rem;
+    background: white;
+    border: 1px solid #f1f5f9;
+    border-radius: 1.5rem;
+    font-size: 0.75rem;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.search-input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.05);
+}
+
+.btn-primary {
+    background: #2563eb;
+    color: white;
+    padding: 0.85rem 1.75rem;
+    border-radius: 1.5rem;
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.2);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+/* Badges & Avatars */
+.badge {
+    padding: 0.35rem 0.85rem;
+    border-radius: 0.75rem;
+    font-size: 9px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+.badge-blue { background: #eff6ff; color: #2563eb; border: 1px solid #dbeafe; }
+
+.user-avatar {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 1.25rem;
+    border: 2px solid white;
+}
+
+.status-online {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 9px;
+    font-weight: 900;
+    color: #22c55e;
+    text-transform: uppercase;
+}
+
+.dot {
+    width: 0.4rem;
+    height: 0.4rem;
+    background: #22c55e;
+    border-radius: 50%;
+    animation: blink 2s infinite;
+}
+
+.action-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    background: #f8fafc;
+    border-radius: 0.85rem;
+    color: #94a3b8;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
