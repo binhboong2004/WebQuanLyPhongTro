@@ -2,7 +2,7 @@
  * Quản lý tài khoản - SmartRent
  */
 document.addEventListener('DOMContentLoaded', function() {
-    // Search Filter Logic
+    // 1. Logic Tìm kiếm nhanh
     const searchInput = document.getElementById('userSearch');
     if (searchInput) {
         searchInput.addEventListener('keyup', function(e) {
@@ -20,13 +20,34 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    // 2. Tự động ẩn thông báo thành công sau 4 giây
+    const alert = document.getElementById('success-alert');
+    if (alert) {
+        setTimeout(function() {
+            alert.style.transition = "opacity 0.5s ease";
+            alert.style.opacity = "0";
+            setTimeout(() => alert.remove(), 500);
+        }, 4000);
+    }
 });
 
-// Hàm xác nhận xóa
-function deleteAccount(userId) {
-    // Bạn có thể dùng SweetAlert2 ở đây cho đẹp hơn alert mặc định
-    if (confirm(`Hệ thống: Bạn có chắc chắn muốn xóa tài khoản #${userId}?`)) {
-        console.log(`Đang thực hiện xóa ID: ${userId}`);
-        // Gửi AJAX delete request ở đây...
+/**
+ * Hàm xác nhận xóa tài khoản
+ * @param {number} userId - ID của người dùng
+ * @param {string} userName - Tên của người dùng để hiển thị thông báo
+ */
+function deleteAccount(userId, userName) {
+    // Hiển thị hộp thoại xác nhận của trình duyệt
+    const confirmMessage = `Hệ thống SmartRent:\n\nBạn có chắc chắn muốn xóa tài khoản của "${userName}" (ID: #${userId}) không?\n\nHành động này không thể hoàn tác!`;
+    
+    if (confirm(confirmMessage)) {
+        // Tìm form ẩn tương ứng theo ID đã đặt ở Blade
+        const form = document.getElementById(`delete-form-${userId}`);
+        if (form) {
+            form.submit(); // Gửi request DELETE lên Controller
+        } else {
+            console.error("Không tìm thấy form xóa cho ID: " + userId);
+        }
     }
 }

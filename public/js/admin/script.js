@@ -3,12 +3,12 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     // 1. Xử lý đóng/mở Dropdown Menu ở Sidebar (Giữ nguyên)
     const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
 
     dropdownToggles.forEach(toggle => {
-        toggle.addEventListener('click', function() {
+        toggle.addEventListener('click', function () {
             const dropdownItem = this.parentElement;
             const subMenu = dropdownItem.querySelector('.sub-menu');
             const icon = this.querySelector('.fa-chevron-down');
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Xử lý Active Menu Item (Giữ nguyên)
     const allLinks = document.querySelectorAll('.nav-item, .sub-menu a');
     allLinks.forEach(link => {
-        link.addEventListener('click', function() {
+        link.addEventListener('click', function () {
             allLinks.forEach(l => l.classList.remove('active'));
             this.classList.add('active');
         });
@@ -63,17 +63,5 @@ document.addEventListener('keydown', (e) => {
 });
 
 /**
- * Các hàm xử lý hành động (Giữ nguyên)
+ * Hàm xử lý hành động legacy (deprecated - sờ dụng finance-actions.js thay thế)
  */
-function approveAction(roomId) {
-    if(confirm(`Bạn có chắc chắn muốn phê duyệt chỉ số cho ${roomId}?`)) {
-        alert(`✅ Đã phê duyệt và tự động tạo hóa đơn cho ${roomId}`);
-    }
-}
-
-function rejectAction(roomId) {
-    const reason = prompt(`Lý do từ chối cho ${roomId}:`);
-    if (reason) {
-        alert(`❌ Đã gửi yêu cầu khai báo lại cho người thuê với lý do: ${reason}`);
-    }
-}

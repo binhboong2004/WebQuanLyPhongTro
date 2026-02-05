@@ -3,8 +3,8 @@
 @section('title', 'Danh sách tài khoản')
 
 @section('content')
-<main class="flex-1 flex flex-col overflow-hidden">
-    <header class="h-16 bg-white shadow-sm flex items-center justify-between px-8 z-10">
+<main class="flex-1 flex flex-col min-h-screen overflow-y-auto bg-slate-50/50">
+    <header class="h-16 min-h-[64px] bg-white shadow-sm flex items-center justify-between px-8 z-10 w-full">
         <h2 class="text-sm font-bold text-gray-400 uppercase tracking-widest">Hệ thống / Quản lý tài khoản</h2>
         <div class="flex items-center gap-6">
             <div class="text-right">
@@ -16,6 +16,34 @@
     </header>
 
     <div class="p-8 overflow-y-auto custom-scrollbar bg-slate-50/50">
+        {{-- Thông báo thành công --}}
+        @if(session('success'))
+        <div id="success-alert" class="mb-6 p-4 bg-green-50 border-l-4 border-green-500 rounded-r-xl shadow-md flex items-center justify-between animate-fade-in">
+            <div class="flex items-center">
+                <div class="bg-green-500 p-2 rounded-lg mr-3">
+                    <i class="fa fa-check text-white text-xs"></i>
+                </div>
+                <div>
+                    <p class="text-xs font-black text-green-800 uppercase tracking-widest">Thành công</p>
+                    <p class="text-[11px] text-green-600 font-bold">{{ session('success') }}</p>
+                </div>
+            </div>
+            <button onclick="document.getElementById('success-alert').remove()" class="text-green-400 hover:text-green-600 transition-colors">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+        @endif
+
+        {{-- Thông báo lỗi (ví dụ: tự xóa chính mình) --}}
+        @if(session('error'))
+        <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-xl shadow-md flex items-center">
+            <div class="bg-red-500 p-2 rounded-lg mr-3">
+                <i class="fa fa-exclamation-triangle text-white text-xs"></i>
+            </div>
+            <p class="text-[11px] text-red-600 font-bold">{{ session('error') }}</p>
+        </div>
+        @endif
+
         <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
             <div class="relative w-full md:w-96 group">
                 <i class="fa fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 text-xs"></i>
@@ -23,9 +51,9 @@
             </div>
 
             <div class="flex items-center gap-3">
-                <button onclick="window.location.href='{{ route('users.create') }}'" class="btn-primary">
+                <a href="{{ route('users.create') }}" class="btn-primary flex items-center">
                     <i class="fa fa-user-plus mr-2"></i> CẤP TÀI KHOẢN
-                </button>
+                </a>
             </div>
         </div>
 
@@ -46,7 +74,6 @@
                         <tr class="user-row transition-all group">
                             <td class="p-6">
                                 <div class="flex items-center gap-4">
-                                    {{-- Avatar tự động theo tên nếu không có ảnh --}}
                                     <img src="{{ $user->avatar ? asset('storage/'.$user->avatar) : 'https://ui-avatars.com/api/?name='.urlencode($user->name).'&background=random' }}"
                                         class="user-avatar shadow-sm object-cover">
                                     <div>
@@ -60,21 +87,30 @@
                                 <div class="text-[10px] text-slate-400 font-medium">{{ $user->phone ?? 'N/A' }}</div>
                             </td>
                             <td class="p-6 text-center">
-                                {{-- Badge đổi màu theo Role --}}
                                 <span class="badge {{ $user->role == 'admin' ? 'badge-blue' : 'bg-slate-100 text-slate-500' }}">
                                     {{ strtoupper($user->role) }}
                                 </span>
                             </td>
                             <td class="p-6 text-center">
-                                <span class="status-online"><span class="dot"></span> Hoạt động</span>
+                                <span class="text-[11px] font-bold text-slate-500">{{ $user->created_at->format('d/m/Y') }}</span>
                             </td>
                             <td class="p-6 text-center">
                                 <div class="flex justify-center gap-2">
-                                    <button class="action-btn hover:text-blue-600 hover:bg-blue-50"><i class="fa fa-pen"></i></button>
-                                    {{-- Truyền ID thật vào hàm xóa --}}
-                                    <button onclick="deleteAccount({{ $user->id }})" class="action-btn hover:text-red-500 hover:bg-red-50">
+                                    {{-- Nút Sửa: Chuyển hướng sang trang edit --}}
+                                    <a href="{{ route('users.edit', $user->id) }}" class="action-btn hover:text-blue-600 hover:bg-blue-50" title="Chỉnh sửa">
+                                        <i class="fa fa-pen"></i>
+                                    </a>
+
+                                    {{-- Nút Xóa: Gọi hàm JS --}}
+                                    <button onclick="deleteAccount('{{ $user->id }}', '{{ $user->name }}')" class="action-btn hover:text-red-500 hover:bg-red-50" title="Xóa">
                                         <i class="fa fa-trash"></i>
                                     </button>
+
+                                    {{-- Form ẩn dùng để gửi request DELETE --}}
+                                    <form id="delete-form-{{ $user->id }}" action="{{ route('users.destroy', $user->id) }}" method="POST" class="hidden">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
                                 </div>
                             </td>
                         </tr>
@@ -90,7 +126,6 @@
             </div>
         </div>
 
-        {{-- Thanh phân trang --}}
         <div class="mt-6">
             {{ $users->links() }}
         </div>

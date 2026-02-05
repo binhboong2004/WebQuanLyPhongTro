@@ -12,4 +12,9 @@ class Issue extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function responses()
+    {
+        return $this->hasMany(AdminResponse::class);
+    }
 }

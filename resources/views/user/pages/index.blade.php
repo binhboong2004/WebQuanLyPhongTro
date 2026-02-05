@@ -6,7 +6,16 @@
         <h2 class="text-2xl font-black text-slate-800">Bảng điều khiển</h2>
         <div class="flex gap-4">
             <button class="icon-btn"><i class="fa fa-bell"></i></button>
-            <button class="bg-teal-600 text-white px-4 py-2 rounded-xl text-sm font-bold shadow-md shadow-teal-100">Đăng xuất</button>
+
+            <a href="{{ route('logout') }}"
+                class="bg-teal-600 text-white px-4 py-2 rounded-xl text-sm font-bold shadow-md shadow-teal-100"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                Đăng xuất
+            </a>
+
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                @csrf
+            </form>
         </div>
     </header>
 

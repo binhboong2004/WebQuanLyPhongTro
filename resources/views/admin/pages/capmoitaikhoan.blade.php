@@ -3,8 +3,8 @@
 @section('title', 'Cấp mới tài khoản')
 
 @section('content')
-<main class="flex-1 flex flex-col overflow-hidden bg-slate-50/50">
-    <header class="h-16 bg-white shadow-sm flex items-center justify-between px-8 z-10">
+<main class="flex-1 flex flex-col min-h-screen overflow-y-auto bg-slate-50/50">
+    <header class="h-16 min-h-[64px] bg-white shadow-sm flex items-center justify-between px-8 z-10 w-full">
         <h2 class="text-sm font-bold text-gray-400 uppercase tracking-widest">Hệ thống / Cấp tài khoản</h2>
         <a href="{{ route('users.index') }}" class="text-xs font-bold text-blue-600 hover:text-blue-700 transition-all">
             <i class="fa fa-arrow-left mr-1"></i> QUAY LẠI DANH SÁCH
