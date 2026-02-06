@@ -28,10 +28,8 @@ class FinanceController extends Controller
         return redirect()->route('finance.readings.index')->with('success', 'Đã phê duyệt chỉ số.');
     }
 
-    // Reject a reading with admin note
     public function rejectReading(Request $request, $id)
     {
-        // Log incoming request for debugging
         Log::info('FinanceController@rejectReading called', ['id' => $id, 'input' => $request->all(), 'user_id' => auth()?->id()]);
 
         $request->validate([
@@ -47,8 +45,7 @@ class FinanceController extends Controller
 
         return redirect()->route('finance.readings.index')->with('success', 'Đã từ chối chỉ số, đã gửi ghi chú cho người dùng.');
     }
-
-    // List invoices / payments
+    
     public function indexInvoices()
     {
         $invoices = Invoice::with('room.building', 'reading')->orderBy('month_year', 'desc')->paginate(20);

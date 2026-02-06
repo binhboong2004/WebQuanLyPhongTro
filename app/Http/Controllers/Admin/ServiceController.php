@@ -11,7 +11,7 @@ use App\Models\Room;
 
 class ServiceController extends Controller
 {
-    // Services for buildings
+
     public function indexBuilding()
     {
         $services = Service::whereNotNull('building_id')

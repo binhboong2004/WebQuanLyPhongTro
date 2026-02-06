@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\RoomMemberController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\BuildingController;
@@ -38,6 +39,17 @@ Route::middleware('auth')->group(function () {
     // Routes cho User
     Route::prefix('user')->group(function () {
         Route::get('/index', [UserController::class, 'index'])->name('user.index');
+        Route::get('/chinh-sua-thong-tin', [UserController::class, 'edit'])->name('user.edit');
+        Route::put('/chinh-sua-thong-tin/{id}', [UserController::class, 'update'])->name('user.update');
+        Route::get('/doi-mat-khau', [UserController::class, 'changePassword'])->name('user.change-password');
+        Route::put('/doi-mat-khau/{id}', [UserController::class, 'updatePassword'])->name('user.update-password');
+
+        // Routes cho Room Members
+        Route::get('/thanh-vien-o-cung', [RoomMemberController::class, 'index'])->name('room-member.index');
+        Route::post('/thanh-vien-o-cung', [RoomMemberController::class, 'store'])->name('room-member.store');
+        Route::get('/thanh-vien-o-cung/{id}/edit', [RoomMemberController::class, 'edit'])->name('room-member.edit');
+        Route::put('/thanh-vien-o-cung/{id}', [RoomMemberController::class, 'update'])->name('room-member.update');
+        Route::delete('/thanh-vien-o-cung/{id}', [RoomMemberController::class, 'destroy'])->name('room-member.destroy');
     });
 
     // Routes cho Admin

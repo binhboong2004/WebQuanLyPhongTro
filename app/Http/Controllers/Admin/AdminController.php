@@ -15,9 +15,6 @@ use App\Models\ServiceReading;
 
 class AdminController extends Controller
 {
-    /**
-     * Hiển thị trang dashboard của admin
-     */
     public function dashboard()
     {
         $totalBuildings = Building::count();

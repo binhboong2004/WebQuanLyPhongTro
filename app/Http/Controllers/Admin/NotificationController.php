@@ -8,20 +8,17 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-    // List all notifications
     public function index()
     {
         $notifications = Notification::orderBy('created_at', 'desc')->paginate(20);
         return view('admin.pages.danhsachthongbao', compact('notifications'));
     }
 
-    // Create notification form
     public function create()
     {
         return view('admin.pages.guithongbao');
     }
 
-    // Send notification
     public function store(Request $request)
     {
         $request->validate([

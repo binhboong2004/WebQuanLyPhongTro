@@ -8,24 +8,26 @@ use App\Models\User;
 use App\Models\Contract;
 use App\Models\Room;
 use Illuminate\Support\Facades\DB;
+use App\Models\RoomMember;
 
 class TenantContractController extends Controller
 {
-    // List tenants (users with role 'tenant' or users who have contracts)
-    public function indexTenants()
+
+        public function indexTenants()
     {
-        $tenants = User::where('role', 'tenant')->with('contracts.room.building')->orderBy('name')->paginate(20);
-        return view('admin.pages.danhsachnguoithue', compact('tenants'));
+        $members = RoomMember::with('room.building')
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(20);
+        return view('admin.pages.danhsachnguoithue', compact('members'));
     }
 
-    // List contracts
+
     public function indexContracts()
     {
         $contracts = Contract::with('tenant', 'room.building')->orderBy('start_date', 'desc')->paginate(20);
         return view('admin.pages.danhsachhopdong', compact('contracts'));
     }
 
-    // Show form to create a new contract
     public function createContract()
     {
         $rooms = Room::with('building')->orderBy('building_id')->orderBy('room_number')->get();
@@ -33,7 +35,6 @@ class TenantContractController extends Controller
         return view('admin.pages.laphopdongthue', compact('rooms', 'tenants'));
     }
 
-    // Store a new contract
     public function storeContract(Request $request)
     {
         $data = $request->validate([
@@ -47,7 +48,6 @@ class TenantContractController extends Controller
             'contract_file' => 'nullable|string'
         ]);
 
-        // Create contract and mark room as occupied in a transaction
         DB::transaction(function () use ($data) {
             $contract = Contract::create($data);
 
